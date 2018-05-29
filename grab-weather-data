@@ -1,0 +1,20 @@
+def weatherdataread(city,csvfile_path,APPID):
+    url='http://api.openweathermap.org/data/2.5/forecast?q={}&units=metric&APPID={}'.format(city,APPID)
+    response=requests.get(url)
+    response.raise_for_status()
+    weatherdata=json.loads(response.text)
+    w = weatherdata['list']
+    outputFile=open('csvfile_path','w',newline='')
+    outputWriter= csv.writer(outputFile)
+    outputWriter.writerow(['Forecast datetime', 'Temp. Range (Celsius)', \
+                           'Group of weather parameters', 'Weather condition within the group'])
+    for i in range(10):
+    # Get Forecast datetime, min/max daily temperature, main, description
+        dtime = datetime.datetime.fromtimestamp(w[i]['dt']).strftime('%Y-%m-%d %H:%M:%S')
+        temp_min = w[i]['main']['temp_min']
+        temp_max = w[i]['main']['temp_max']
+        main = w[i]['weather'][0]['main']
+        desc = w[i]['weather'][0]['description']
+        # Write rows into csv file
+        outputWriter.writerow([dtime, str(temp_min)+ ' - ' +str(temp_max), main, desc])
+    outputFile.close() 
