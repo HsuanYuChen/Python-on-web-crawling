@@ -1,0 +1,31 @@
+# 斧頭幫第四關
+# http://axe-level-4.herokuapp.com/lv4
+#Level 2 的程式重新執行時會發現每次都是跑第一頁，需要考慮網頁特性: header
+from lxml import etree  
+import requests
+
+def main():
+    headers={
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    "Accept-Encoding":"gzip, deflate",
+    "Accept-Language": "en-US,en;q=0.9,zh-TW;q=0.8,zh;q=0.7",
+    "Connection": "keep-alive",
+    "Host": "axe-level-4.herokuapp.com",
+    "Referer": "http://axe-level-4.herokuapp.com/lv4/",
+    "Upgrade-Insecure-Requests": "1",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36"
+}
+
+    jsondata='['
+    for i in range(1,25):
+        html = requests.get("http://axe-level-4.herokuapp.com/lv4/?page=%s" % i,headers=headers) #address跟著page轉換
+        html.encoding='utf8'
+        result = etree.fromstring(html.text, etree.HTMLParser())
+        for row in result.xpath("//table[@class='table']//tr[position()>1]"):
+            address = row.xpath("./td//text()")
+            tmp = '{"town": "%s", "village": "%s", "name" : "%s"},'% (address[0],address[1],address[2]) #'+=' 資料累加
+            jsondata += tmp 
+    print(jsondata[0:-1] + ']')
+    
+if __name__ == "__main__":  
+    main()
