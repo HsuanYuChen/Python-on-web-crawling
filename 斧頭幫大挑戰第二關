@@ -1,0 +1,32 @@
+# 斧頭幫第二關
+# http://axe-level-1.herokuapp.com/lv2
+#處理分頁
+#設定n = 1
+#檢查第n頁有無資料，若有則下載網頁並轉換成DOM 格式，若無則輸出結果
+#解析、處理網頁內容
+#設定n = n+1，並回到第2步驟
+
+from lxml import etree  
+import requests
+
+def main(): 
+    page = 1
+    jsondata='['
+    while True: #需要設定一個無窮迴圈，考慮現實情況下不一定知道目標網站共有幾頁資料
+        html = requests.get("http://axe-level-1.herokuapp.com/lv2/?page=%s" % str(page)) #address跟著page轉換
+        html.encoding='utf8'
+        result = etree.fromstring(html.text, etree.HTMLParser())
+        rows= result.xpath("//table[@class='table']//tr[position()>1]")
+        if len(rows) == 0:
+            break #如果該頁沒有資料列的話表示已經到最後一頁，離開迴圈
+        else:
+            tmp = ""
+            for row in rows:
+                address = row.xpath("./td//text()")
+                tmp += '{"town": "%s", "village": "%s", "name" : "%s"},'% (address[0],address[1],address[2]) #'+=' 資料累加
+            jsondata += tmp 
+            page+=1 #如果有值，不斷翻下一頁
+    print(jsondata[0:-1] + ']')
+
+if __name__ == "__main__":  
+    main()
