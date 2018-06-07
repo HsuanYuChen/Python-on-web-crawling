@@ -1,0 +1,17 @@
+# 斧頭幫第一題
+# http://axe.g0v.tw/
+import urllib
+import chardet
+html = urllib.request.urlopen("http://axe-level-1.herokuapp.com").read() 
+charset = chardet.detect(html) #解決中文亂碼
+{'confidence': 0.99, 'encoding': 'utf-8'} 
+
+from lxml import etree
+page = etree.HTML(html)
+#回傳json 格式
+jsondata= '['
+for i in page.xpath("//table[@class='table']//tr[position()>1]"): #Selects the more than first book elements that are children of the bookstore element
+    value = i.xpath("./td//text()")
+    tmp = '{"name": "%s", "grades": {"國語":%s, "數學": %s, "自然":%s, "社會": %s, "健康教育":%s }},'%(value[0],value[1],value[2],value[3],value[4],value[5])
+    jsondata += tmp
+    print(jsondata[0:-1]+']')
