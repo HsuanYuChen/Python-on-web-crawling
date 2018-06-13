@@ -1,0 +1,54 @@
+觀察要點：對著驗證碼按下右鍵「在新分頁中開啟圖片」，重新整理頁面
+驗證碼如果都一樣(通常網址後面會帶參數)：可直接用request.get()來抓取圖片
+以中華郵政全球資訊網為例子，網址：http://www.post.gov.tw/post/internet/SearchZone/index.jsp?ID=130112 ＃網址後帶參數
+import requests
+from lxml import etree
+from PIL import Image
+import pytesseract
+#開啟網頁
+resp = requests.get("http://www.post.gov.tw/post/internet/SearchZone/index.jsp?ID=130112")
+#獲取圖片網址
+html=resp.text
+page = etree.HTML(html)
+image = page.xpath("//img[@id='imgCaptcha3']/@src")[0] #取string
+key=image.split("&vKey=")[-1] #取vKey 後面的值
+#下載圖片 圖片點開後網址：https://www.post.gov.tw/post/internet/Postal/sz_zip_search_Show3.jsp?rand=0.95517516&vKey=657e6cea-7b32-47b0-b8b1-89c449be8a31
+resp_captcha = requests.get("https://www.post.gov.tw/post/internet/"+image.replace("..",""))
+img = resp_captcha.content
+fo = open("post_gov_captcha.jpg","wb")
+fo.write(img)
+fo.close()
+#解析驗證碼文字
+captcha = pytesseract.image_to_string(Image.open("post_gov_captcha.jpg"))
+print(captcha)
+# 以requests的get/post來送出資料
+#header -> form data
+post_data={
+    "do_s_1":"1",
+    "vKey": key,
+    "showMode": "1",
+    "city": "高雄市",
+    "change_city": "15",
+    "cityarea":"三民區",
+    "street": "鼎富路",
+    "lane":"", 
+    "alley": "",
+    "num": "57",
+    "num_hyphen":"", 
+    "fl": "2",
+    "hyphen":"", 
+    "suite":"", 
+    "list": "true",
+    "checkImange": captcha,
+    "submit": "查詢",
+}
+resp = requests.post("https://www.post.gov.tw/post/internet/Postal/index.jsp?ID=207",data = post_data)
+html = resp.text
+page = etree.HTML(html)
+eng_address= page.xpath("//table[contains(@class,'TableStyle_02')][1]//tr[2]//text()")[1]
+print(eng_address)
+
+p.s 若同樣的圖片網址，以無痕模式開啟，無法出現圖片
+#可用方法：selenium、requests+Session
+程式中加入這段，以維持網路連線
+resq = requests.Session() 
