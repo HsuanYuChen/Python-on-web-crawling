@@ -1,0 +1,57 @@
+觀察要點：對著驗證碼按下右鍵「在新分頁中開啟圖片」，重新整理頁面
+驗證碼如果不一樣：以selenium模擬瀏覽器最為保險，需要裁切圖片
+以經濟部商業司─公司及分公司基本資料查詢為例，“驗證碼不一樣”
+
+from selenium import webdriver
+import signal
+from selenium.webdriver.common.by import By
+from PIL import Image
+import pytesseract
+#設定瀏覽器畫面大小．開啟網頁．截圖
+driver = webdriver.PhantomJS(executable_path='自己的path')
+driver.get("http://serv.gcis.nat.gov.tw/pub/cmpy/cmpyInfoListAction.do")
+driver.set_window_size(1024, 768) #全屏大小
+driver.save_screenshot('cmpyInfo_raw.jpg')
+# 裁切驗證碼圖片
+import cv2
+img = cv2.imread("cmpyInfo_raw.jpg")
+＃找驗證碼的位置
+element = driver.find_element_by_id("kaptcha")
+left = element.location['x']
+right = element.location['x']+element.size['width']
+top = element.location['y']
+bottom = element.location['y']+element.size['height']
+crop_img = img[top:bottom, left:right]
+cv2.imwrite("crop.jpg", crop_img)
+#圖片處理成清晰(原圖片若直接解析，會出現亂碼，故加此code)
+def threshold(filein, fileout, limit=100):
+    img = Image.open(filein)
+    m = 1.5
+    img = img.convert('RGB')
+    pixdata = img.load()
+    
+    for y in range(img.size[1]):
+        for x in range(img.size[0]):
+            # 讓RGB三個顏色其一小於 threshold 值，就轉成 黑色
+            if pixdata[x, y][0] < limit or pixdata[x, y][1] < limit or pixdata[x, y][2] < limit:
+                pixdata[x, y] = (0, 0, 0, 255)
+            else:
+                pixdata[x, y] = (255, 255, 255, 255)
+    img.save(fileout)
+    
+threshold('crop.jpg','crop_threshold.jpg')
+# 解析驗證碼文字
+captcha = pytesseract.image_to_string(Image.open('crop_threshold.jpg'))
+print (captcha)
+# 填入資料
+text_box = driver.find_element_by_xpath("//input[@name='queryStr']")
+text_box.send_keys("玩咖旅行社")
+text_box = driver.find_element_by_xpath("//input[@name='imageCode']")
+text_box.send_keys(captcha)
+driver.save_screenshot('cmpyInfo_ready.jpg')
+#送出
+driver.find_element_by_xpath("//input[@name='submitData']").click()
+driver.save_screenshot('cmpyInfo_submit.jpg')
+# 關閉process
+driver.service.process.send_signal(signal.SIGTERM)
+driver.quit() 
