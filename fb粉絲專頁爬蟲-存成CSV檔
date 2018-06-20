@@ -1,0 +1,86 @@
+爬取粉絲專頁的資料 -- 預期產出
+假設對 Facebook 粉絲專頁和粉絲的互動有興趣，想透過粉專文章的 Likes / Comments / Shares 來衡量互動。
+以 Girls In Tech 粉絲專頁為例
+
+使用 facebook 開放的 Graph API
+Facebook Graph API Explorer -->https://developers.facebook.com/tools/explorer --> 創建 Access Token (連上自己的Facebook帳戶的鑰匙)
+Field的說明可以在官方文件Graph API document裡查詢 ＃https://developers.facebook.com/docs/graph-api/reference
+注意Node的設定：粉絲專頁過去發的貼文，Node就是Page的ID、Field是”posts”；粉專某一篇貼文下面的回應，Node就是該篇文章的ID、Field”是comments”。
+
+step0: 先在安裝
+pip install facebook-sdk
+
+step1: 取得資料
+1. 拿文章本身的資料（文章 id / 內容 / po文時間）
+2. 拿文章中粉絲互動的資料（Likes / Comments/ Shares）
+3. 把以上資料按照自己定義的格式寫進檔案
+
+import facebook
+import requests
+import json
+import csv
+
+#拿取文章本身的資料（文章 id / 粉專名稱 / 文章內容 / po文時間）
+def get_all_post(fanpageID):
+    all_posts = graph.get_connections(id = fanpageID,connection_name = 'posts', summary = True,limit = 25)
+    fanpagename = graph.get_object(id = fanpageID, fields ='name')['name']
+    postID_list=[]
+    fanpagename_list = []
+    content_list =[]
+    createtime_list = []
+    for i in range(0,25): 
+        postID_list.append(all_posts['data'][i]['id'])
+        fanpagename_list.append(fanpagename)
+        #文章內容因為不一定有值，所以要做 try-except 的例外處理
+        try:
+            content_list.append(all_posts['data'][i]['message'])
+        except:
+            content_list.append("")
+        createtime_list.append(all_posts['data'][i]['created_time'])
+    return postID_list,fanpagename_list,content_list ,createtime_list
+    
+＃因為 facebook-sdk 沒有 Shares 參數，而 Graph API response 沒有 Comments 參數
+#拿取文章中粉絲互動的資料（Likes / Comments/ Shares）
+def get_activation(postID_list):
+    url = 'https://graph.facebook.com/v3.0/'+fanpageID+'?fields=posts.limits(25){likes,comments,shares}&access_token='+token #取25筆資料
+    resp = requests.get(url)
+    html = json.loads(resp.text)
+    
+    postlikecount_list=[]
+    postcommentcount_list=[]
+    postsharecount_list = []
+    
+    #使用 facebook-sdk 取得 "likes", "comments"
+    for i in postID_list:
+        postlikecount = graph.get_connections(id=i, connection_name = 'likes',summary =True )
+        postcommentcount = graph.get_connections(id=i, connection_name = 'comments',summary =True )
+        postlikecount_list.append(postlikecount['summary']['total_count'])
+        postcommentcount_list.append(postcommentcount['summary']['total_count'])
+    #使用 Graph API response 取得"shares"
+    for i in range(25): 
+        #有可能沒有分享數
+        try:
+            postsharecount = html['posts']['data'][i]['shares']['count']
+        except:
+            postsharecount = 0
+        postsharecount_list.append(postsharecount)
+    return postlikecount_list,postcommentcount_list,postsharecount_list
+ # 把資料按照自己定義的格式寫進CSV檔案
+ def write_file(filename, write_list_1, write_list_2, write_list_3, write_list_4, write_list_5, write_list_6, write_list_7): #總共有七個欄位
+     with open(filename, "w" ,newline='',encoding='utf-8-sig') as fo: #避免轉CSV，有中文亂碼
+        writer = csv.writer(fo)
+        lists = write_list_1, write_list_2, write_list_3, write_list_4, write_list_5, write_list_6, write_list_7
+        #先寫入columns_name
+        writer.writerow(["postID", "fanpagename", "content", "createtime", "postlikecount","postcommentcount","postsharecount"])
+        for i in range(25):
+            write_out = [li[i] for li in lists]
+            writer.writerow(write_out)
+ ＃ 實際執行，產生檔案
+ if __name__	== '__main__':
+    token = '自己的access token key'
+    graph = facebook.GraphAPI(access_token = token)
+    fanpageID = '393460757519655'
+
+    postID_list,fanpagename_list,content_list ,createtime_list = get_all_post(fanpageID)
+    postlikecount_list,postcommentcount_list,postsharecount_list = get_activation(postID_list)
+    write_file('GirlInTech.csv', postID_list, fanpagename_list, content_list, createtime_list, postlikecount_list,postcommentcount_list,postsharecount_list)
