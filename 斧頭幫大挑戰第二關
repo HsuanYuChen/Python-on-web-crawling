@@ -15,7 +15,7 @@ def main():
     while True: #需要設定一個無窮迴圈，考慮現實情況下不一定知道目標網站共有幾頁資料
         html = requests.get("http://axe-level-1.herokuapp.com/lv2/?page=%s" % str(page)) #address跟著page轉換
         html.encoding='utf8'
-        result = etree.fromstring(html.text, etree.HTMLParser())
+        result = etree.fromstring(html.text, etree.HTMLParser()) #所有的網頁原始碼轉成element tree的結構，以HTML的格式來解析
         rows= result.xpath("//table[@class='table']//tr[position()>1]")
         if len(rows) == 0:
             break #如果該頁沒有資料列的話表示已經到最後一頁，離開迴圈
