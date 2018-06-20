@@ -1,0 +1,50 @@
+承接 fb粉絲專頁爬蟲-存成CSV檔，改成存在資料庫
+為什麼要使用資料庫？
+1. 為了備份，不用做查詢，例如：備份貼文
+2. 為了做頻繁、甚至條件複雜的搜尋，例如：找所有 Like 數>20的貼文
+3. 為了頻繁的修改、複寫資料，例如：記錄持續增加的按讚人數
+
+Step0: 先安裝
+一個支援 SQLite 的視覺化介面 ＃http://sqlitebrowser.org/
+先建立資料庫- Fanpage_data，在建立資料表- PostInfo，在建立fields:
+postID：Primary Key(不會重複),data-type:text
+fanpageName: 不能為空，data-type:text
+content:data-type:text
+likes:data-type:Integar
+comments: data-type:Integar
+shares: data-type:Integar
+createTime：不能為空，data-type:text
+
+#補充小知識： 
+主鍵 (Primary key) - 主鍵欄位裡的值不能重複，用來標示所儲存資料，並確保資料的唯一性
+外來鍵 (Foreign key) - 當不同資料表儲存的資料事實上是相同的資料時，為了不要讓資料出現不一致的問題，會宣告主鍵和外來鍵，讓資料庫知道兩者之間的關聯
+
+step1:
+新增：import sqlite3
+修改：
+#將資料存入資料庫
+def write_sql(cursor, write_list_1, write_list_2, write_list_3, write_list_4, write_list_5, write_list_6, write_list_7):
+    lists = write_list_1, write_list_2, write_list_3, write_list_4, write_list_5, write_list_6, write_list_7
+#insert into table values ... 是 SQL 語言，這個指令會把 values 之後的內容輸入進資料庫。由於每次輸入都要代換不同的資料，所以在 value 後放和資料表欄位數相等的 ? 
+    sql = "insert into PostInfo values (?,?,?,?,?,?,?)" 
+    for i in range(24):
+        write_out = []
+        for li in lists:
+            write_out.append(li[i])
+        cursor.execute(sql, write_out) # cursor物件是用來執行sql語言,改變資料庫內容
+
+
+if __name__	== '__main__':
+    token = '自己的access token key'
+    graph = facebook.GraphAPI(access_token = token)
+    fanpageID = '393460757519655'
+
+    conn = sqlite3.connect('Fanpage_data.db')# 連接資料庫 db
+    cur = conn.cursor()# 創一個cursor物件
+
+    postID_list, fanpagename_list, content_list, createtime_list = get_all_posts(fanpageID)
+    postLikesCount_list, postCommentsCount_list, postSharesCount_list = get_activation(postID_list)
+    write_sql(cur, postID_list, fanpagename_list, content_list, postLikesCount_list, postCommentsCount_list, postSharesCount_list, createtime_list)
+
+    conn.commit()# 把之前的改變確實反應到資料庫中
+    conn.close()# 關閉資料庫連線
