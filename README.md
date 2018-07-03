@@ -155,6 +155,7 @@
       圖檔、JavaScript、Xml......etc
 - 進階：json 與 xml 的處理
 - 建立 [Google API 金鑰](https://console.developers.google.com/apis/dashboard?project=deft-shade-206507&hl=zh-tw&duration=PT1H)
+
 Step1：API 管理員 > 憑證 > 建立專案 > 建立憑證 > API 金鑰 > 複製金鑰> 關閉
 
 Step2: 資料庫 > Google Maps API > 更多 > Google Places API Web Service > 啟用
