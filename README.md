@@ -11,6 +11,19 @@
 # RoadMap
 - 基礎1 : 抓取圖片
 
+      GET
+      url = 網址
+      response = requests.get(url)
+      1. 缺點就是資料會被看光
+      2. 內容跟地址字數就會受到大小限制
+      
+      POST
+      url = http://www.thsrc.com.tw/tw/TimeTable/SearchResult
+      response = requests.post(url,data=post_data)
+      1. 內容是被保護起來
+      2. 只看得到地址，看不到內容，安全性會提高
+      3. 容量比使用get高很多
+# 
       import requests (使用 requests 模組，來抓取以傳遞資料的方法為 GET 的網頁原始碼)
       url = "任何網站"
       response = requests.get(url)
@@ -31,7 +44,6 @@
                  fileout = open(filepath,"wb")
                  fileout.write(img)
 - 基礎2 : 抓取網頁資料
-
 - 好用 Chrome 擴充功能
 
      [Quick Javascript Switcher](https://chrome.google.com/webstore/detail/quick-javascript-switcher/geddoclleiomckbhadiaipdggiiccfje) ：快速知道網頁哪些內容是由JavaScript(JS)產生
@@ -61,6 +73,19 @@
                         div[1]：標籤div的第1個node(從1開始數)
                    3. 屬性狀態：
                         header[@class='entry-header']：header標籤中屬性class為entry-header的node
+                   4. 屬性存在與否: 
+                        li[@class]：標籤li中有class這個屬性的node
+                        li[not(@class)]：標籤li中「沒有」class這個屬性的node
+                   5. contains(屬性,子字串)
+                        同等於Python的in，比較屬性的值是否包含子字串
+                        eg. div[@class='post-body entry-content'] 可以改寫成 div[contains(@class, 'post-body')]
+                   6. or/and
+                        同等於Python的or/and，邏輯中「或/和」的概念
+                        eg. font[(@color="#0000ff" or @color="blue")]
+                   7. XPath 的串接
+                        | ：可以串接兩個Path
+                        常用情境：同時抓取位於不同Path的所需資訊：第一頁出現的文章標題以及熱門文章標題
+                   8. [更多 XPath 語法](https://www.w3schools.com/xml/xpath_syntax.asp)
                        
 # 
             import requests
@@ -94,11 +119,9 @@
             img_response = requests.get(img_src)
             img = img_response.content
             
-        注意：圖片的內容不是文字！
-        
-        所以用的是 content ，而不是像之前抓網頁的時候是用 text ，是取得bytes型式的內容
-        
-        寫檔的時候，因為取得的是bytes型式的內容，因此用的是 wb ，而不是 w
+            注意：圖片的內容不是文字！        
+            所以用的是 content ，而不是像之前抓網頁的時候是用 text ，是取得bytes型式的內容        
+            寫檔的時候，因為取得的是bytes型式的內容，因此用的是 wb ，而不是 w
 
             filename=img_src.split("/")[-1]
             filepath="tmp/"+filename
