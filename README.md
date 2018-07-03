@@ -32,7 +32,7 @@
                  fileout.write(img)
 - 基礎2 : 抓取網頁資料
 
-    from lxml import etree  只從 lxml <模組module>，裝備 etree <物件Object>
+    from lxml import etree -> 只從 lxml <模組module>，裝備 etree <物件Object>
     
     page = etree.HTML(html)
     把名稱為html的資料(網頁抓下來的原始碼)，
