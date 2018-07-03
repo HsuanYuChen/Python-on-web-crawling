@@ -52,42 +52,43 @@
       
      [XPath Helper](https://chrome.google.com/webstore/detail/xpath-helper/hgimnogjllphhhkhlmebbmlgjoejdpjl?hl=zh-TW)：了解XPath語法會抓到哪些內容
 
-            1. from lxml import etree    
-               只從 lxml <模組module>，裝備 etree <物件Object>    
-            2. page = etree.HTML(html)
-               把名稱為html的資料(網頁抓下來的原始碼)，
-               以 物件etree的HTML函式，轉換成「XPath的節點(node)型態」，並以名稱page紀錄。  
+      from lxml import etree    
+      只從 lxml <模組module>，裝備 etree <物件Object>  
+      
+      page = etree.HTML(html)
+      把名稱為html的資料(網頁抓下來的原始碼)，
+      以 物件etree的HTML函式，轉換成「XPath的節點(node)型態」，並以名稱page紀錄。  
     
-            3. XPath 節點(node)選擇：
+      XPath 節點(node)選擇：
     
-                   1. 小孩/：「下一層節點」，或是該標籤的「屬性 @」或「文字 text()」
-                   2. 子孫//：全搜索，常用在搜尋不知道有幾層節點的狀況
-                        放在開頭，就是整份文件搜尋：
-                              //table 是找尋全文件中的table標籤
-                        放在中間，就是前一個節點node(父節點)下全搜尋：
-                              //table//text() 是找尋全文件中table標籤底下的所有文字
-                   3. . 以現在的節點node搜索，常用在同時呈現同一階層(輩份)的資料
+          1. 小孩/：「下一層節點」，或是該標籤的「屬性 @」或「文字 text()」
+          2. 子孫//：全搜索，常用在搜尋不知道有幾層節點的狀況
+                 放在開頭，就是整份文件搜尋：
+                     //table 是找尋全文件中的table標籤
+                 放在中間，就是前一個節點node(父節點)下全搜尋：
+                     //table//text() 是找尋全文件中table標籤底下的所有文字
+          3. . 以現在的節點node搜索，常用在同時呈現同一階層(輩份)的資料
                    
-            4. XPath 敘述(Predicates):
+      XPath 敘述(Predicates):
             
-                   1. 使用[]表示
-                   2. 位置：
-                        div[1]：標籤div的第1個node(從1開始數)
-                   3. 屬性狀態：
-                        header[@class='entry-header']：header標籤中屬性class為entry-header的node
-                   4. 屬性存在與否: 
-                        li[@class]：標籤li中有class這個屬性的node
-                        li[not(@class)]：標籤li中「沒有」class這個屬性的node
-                   5. contains(屬性,子字串)
-                        同等於Python的in，比較屬性的值是否包含子字串
-                        eg. div[@class='post-body entry-content'] 可以改寫成 div[contains(@class, 'post-body')]
-                   6. or/and
-                        同等於Python的or/and，邏輯中「或/和」的概念
-                        eg. font[(@color="#0000ff" or @color="blue")]
-                   7. XPath 的串接
-                        | ：可以串接兩個Path
-                        常用情境：同時抓取位於不同Path的所需資訊：第一頁出現的文章標題以及熱門文章標題
-                   8. [更多 XPath 語法](https://www.w3schools.com/xml/xpath_syntax.asp)                       
+          1. 使用[]表示
+          2. 位置：
+                div[1]：標籤div的第1個node(從1開始數)
+          3. 屬性狀態：
+                header[@class='entry-header']：header標籤中屬性class為entry-header的node
+          4. 屬性存在與否: 
+                li[@class]：標籤li中有class這個屬性的node
+                li[not(@class)]：標籤li中「沒有」class這個屬性的node
+          5. contains(屬性,子字串)
+                同等於Python的in，比較屬性的值是否包含子字串
+                eg. div[@class='post-body entry-content'] 可以改寫成 div[contains(@class, 'post-body')]
+          6. or/and
+                同等於Python的or/and，邏輯中「或/和」的概念
+                eg. font[(@color="#0000ff" or @color="blue")]
+          7. XPath 的串接
+                 | ：可以串接兩個Path
+                 常用情境：同時抓取位於不同Path的所需資訊：第一頁出現的文章標題以及熱門文章標題
+          8. [更多 XPath 語法](https://www.w3schools.com/xml/xpath_syntax.asp)                       
 # 
 - 範例：抓取網頁資料
             import requests
