@@ -1,6 +1,8 @@
 # Python 爬蟲經驗分享
 可用套件：urllib、requests、lxml、beautiful_soup、scrapy、selenium
+
 目的：
+
 幫我們自動化從網頁上去擷取我們所需要的資料，減少重複的動作
 1. 點擊網頁 or 輸入查詢資料
 2. 等待網頁開啟
