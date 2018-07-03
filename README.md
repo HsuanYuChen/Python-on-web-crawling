@@ -9,8 +9,7 @@
 5. 重覆以上動作
 
 # RoadMap
-- 基礎1 : 抓取圖片
-
+- 基礎1 : Request Method
       GET
       url = 網址
       response = requests.get(url)
@@ -23,7 +22,7 @@
       1. 內容是被保護起來
       2. 只看得到地址，看不到內容，安全性會提高
       3. 容量比使用get高很多
-# 
+# 抓取圖片
       import requests (使用 requests 模組，來抓取以傳遞資料的方法為 GET 的網頁原始碼)
       url = "任何網站"
       response = requests.get(url)
@@ -43,7 +42,7 @@
                  filepath="tmp/"+filename
                  fileout = open(filepath,"wb")
                  fileout.write(img)
-- 基礎2 : 抓取網頁資料
+- 基礎2 : 使用XPath
 - 好用 Chrome 擴充功能
 
      [Quick Javascript Switcher](https://chrome.google.com/webstore/detail/quick-javascript-switcher/geddoclleiomckbhadiaipdggiiccfje) ：快速知道網頁哪些內容是由JavaScript(JS)產生
@@ -85,9 +84,8 @@
                    7. XPath 的串接
                         | ：可以串接兩個Path
                         常用情境：同時抓取位於不同Path的所需資訊：第一頁出現的文章標題以及熱門文章標題
-                   8. [更多 XPath 語法](https://www.w3schools.com/xml/xpath_syntax.asp)
-                       
-# 
+                   8. [更多 XPath 語法](https://www.w3schools.com/xml/xpath_syntax.asp)                       
+# 抓取網頁資料
             import requests
             url = "網址"
             response = requests.get(url)
