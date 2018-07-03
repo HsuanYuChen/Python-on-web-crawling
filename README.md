@@ -67,7 +67,9 @@
                         放在中間，就是前一個節點node(父節點)下全搜尋：
                               //table//text() 是找尋全文件中table標籤底下的所有文字
                    3. . 以現在的節點node搜索，常用在同時呈現同一階層(輩份)的資料
+                   
             4. XPath 敘述(Predicates):
+            
                    1. 使用[]表示
                    2. 位置：
                         div[1]：標籤div的第1個node(從1開始數)
@@ -139,7 +141,9 @@
       記住我的帳號
       購物車在付帳前要紀錄使用者購買哪些商品
       推薦你可能喜歡的商品
-      範例： 參考
+     範例： 參考[斧頭幫大挑戰第三關](https://github.com/HsuanYuChen/Python-on-web-crawling/blob/master/斧頭幫大挑戰第三關)
+     應用於網頁分頁透過 &page={prev,next} 這兩種值來決定要上一頁或者下一頁
+     
       Session
       資料記在Server上
       存放較敏感的資料 
