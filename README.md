@@ -32,11 +32,21 @@
                  fileout.write(img)
 - 基礎2 : 抓取網頁資料
 
-    from lxml import etree -> 只從 lxml <模組module>，裝備 etree <物件Object>
+    from lxml import etree 
+    
+    只從 lxml <模組module>，裝備 etree <物件Object>
     
     page = etree.HTML(html)
+    
     把名稱為html的資料(網頁抓下來的原始碼)，
     以 物件etree的HTML函式，轉換成「XPath的節點(node)型態」，並以名稱page紀錄。
+    
+    Nodes
+    
+    小孩/：「下一層節點」，或是該標籤的「屬性 @」或「文字 text()」
+    
+    子孫//：小孩、小孩的小孩、小孩的小孩的小孩......etc.
+    
 
       import requests
       url = "網址"
@@ -45,7 +55,12 @@
       
       from lxml import etree
       page = etree.HTML(html)
-      first_article_tags = page.xpath("//footer/a/text()")[0]
+      first_article_tags = page.xpath("//footer/a/text()")[0] #Python的語法，所以[0]是取「第1個」結果。
       print (first_article_tags)
       for article_title in page.xpath("//h5/a/text()"):
       print (article_title)
+      #xpath找尋
+      整個文件中的子孫 // ， 所有是 footer 標籤，
+      且小孩是 a 標籤的文字 text()的結果(為一串列)，
+      而我們只取「第1個」結果，存到變數 first_article_tags 中。
+      
