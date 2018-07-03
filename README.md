@@ -88,9 +88,10 @@
           7. XPath 的串接
                  | ：可以串接兩個Path
                  常用情境：同時抓取位於不同Path的所需資訊：第一頁出現的文章標題以及熱門文章標題
-          8. [更多 XPath 語法](https://www.w3schools.com/xml/xpath_syntax.asp)                       
+     [更多 XPath 語法](https://www.w3schools.com/xml/xpath_syntax.asp)                       
 # 
 - 範例：抓取網頁資料
+
             import requests
             url = "網址"
             response = requests.get(url)
