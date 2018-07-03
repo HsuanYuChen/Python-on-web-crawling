@@ -88,7 +88,7 @@
           7. XPath 的串接
                  | ：可以串接兩個Path
                  常用情境：同時抓取位於不同Path的所需資訊：第一頁出現的文章標題以及熱門文章標題
-     [更多 XPath 語法](https://www.w3schools.com/xml/xpath_syntax.asp)                       
+     補充： [更多 XPath 語法](https://www.w3schools.com/xml/xpath_syntax.asp)                       
 # 
 - 範例：抓取網頁資料
 
@@ -153,3 +153,12 @@
       Cache
       加速瀏覽速度（如：有時候網路斷掉，Youtube還能繼續播放一段時間; 第二次開網頁比較快; 網站更新版本需要再特別refresh）
       圖檔、JavaScript、Xml......etc
+- 進階：json 與 xml 的處理
+- 建立 [Google API 金鑰](https://console.developers.google.com/apis/dashboard?project=deft-shade-206507&hl=zh-tw&duration=PT1H)
+Step1：API 管理員 > 憑證 > 建立專案 > 建立憑證 > API 金鑰 > 複製金鑰> 關閉
+Step2: 資料庫 > Google Maps API > 更多 > Google Places API Web Service > 啟用
+
+      json 解析
+      json.loads(字串)：json格式字串 -> python字典型態
+      json.dumps(字典)：python字典型態 -> json格式字串
+   輔助工具：[Json Parser Online](http://json.parser.online.fr/)
