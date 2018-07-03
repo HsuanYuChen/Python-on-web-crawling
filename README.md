@@ -61,7 +61,9 @@
                         div[1]：標籤div的第1個node(從1開始數)
                    3. 屬性狀態：
                         header[@class='entry-header']：header標籤中屬性class為entry-header的node
-     
+                       
+          
+          
             import requests
             url = "網址"
             response = requests.get(url)
