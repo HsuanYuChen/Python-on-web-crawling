@@ -33,9 +33,10 @@
 - 基礎2 : 抓取網頁資料
 
 - 好用 Chrome 擴充功能
-[Quick Javascript Switcher](https://chrome.google.com/webstore/detail/quick-javascript-switcher/geddoclleiomckbhadiaipdggiiccfje) ：快速知道網頁哪些內容是由JavaScript(JS)產生
+
+     [Quick Javascript Switcher](https://chrome.google.com/webstore/detail/quick-javascript-switcher/geddoclleiomckbhadiaipdggiiccfje) ：快速知道網頁哪些內容是由JavaScript(JS)產生
       
-[XPath Helper](https://chrome.google.com/webstore/detail/xpath-helper/hgimnogjllphhhkhlmebbmlgjoejdpjl?hl=zh-TW)：了解XPath語法會抓到哪些內容
+     [XPath Helper](https://chrome.google.com/webstore/detail/xpath-helper/hgimnogjllphhhkhlmebbmlgjoejdpjl?hl=zh-TW)：了解XPath語法會抓到哪些內容
 
 1. from lxml import etree    
 
