@@ -25,6 +25,7 @@
       3. 容量比使用get高很多
 # 
 - 範例：抓取圖片
+
       import requests (使用 requests 模組，來抓取以傳遞資料的方法為 GET 的網頁原始碼)
       url = "任何網站"
       response = requests.get(url)
@@ -127,7 +128,7 @@
             fileout = open(filepath,"wb")
             fileout.write(img)
             fileout.close()
--基礎3: Cookie介紹
+- 基礎3: Cookie介紹
 
       Cookie
       requests.get(url,cookies=我的cookie資訊)
@@ -138,3 +139,11 @@
       記住我的帳號
       購物車在付帳前要紀錄使用者購買哪些商品
       推薦你可能喜歡的商品
+      範例： 參考
+      Session
+      資料記在Server上
+      存放較敏感的資料 
+      
+      Cache
+      加速瀏覽速度（如：有時候網路斷掉，Youtube還能繼續播放一段時間; 第二次開網頁比較快; 網站更新版本需要再特別refresh）
+      圖檔、JavaScript、Xml......etc
