@@ -10,6 +10,7 @@
 
 # RoadMap
 - 基礎1 : Request Method
+
       GET
       url = 網址
       response = requests.get(url)
@@ -22,7 +23,8 @@
       1. 內容是被保護起來
       2. 只看得到地址，看不到內容，安全性會提高
       3. 容量比使用get高很多
-# 抓取圖片
+# 
+- 範例：抓取圖片
       import requests (使用 requests 模組，來抓取以傳遞資料的方法為 GET 的網頁原始碼)
       url = "任何網站"
       response = requests.get(url)
@@ -49,15 +51,13 @@
       
      [XPath Helper](https://chrome.google.com/webstore/detail/xpath-helper/hgimnogjllphhhkhlmebbmlgjoejdpjl?hl=zh-TW)：了解XPath語法會抓到哪些內容
 
-1. from lxml import etree    
-
-   只從 lxml <模組module>，裝備 etree <物件Object>    
-2. page = etree.HTML(html)
+            1. from lxml import etree    
+               只從 lxml <模組module>，裝備 etree <物件Object>    
+            2. page = etree.HTML(html)
+               把名稱為html的資料(網頁抓下來的原始碼)，
+               以 物件etree的HTML函式，轉換成「XPath的節點(node)型態」，並以名稱page紀錄。  
     
-    把名稱為html的資料(網頁抓下來的原始碼)，
-    以 物件etree的HTML函式，轉換成「XPath的節點(node)型態」，並以名稱page紀錄。  
-    
-            XPath 節點(node)選擇：
+            3. XPath 節點(node)選擇：
     
                    1. 小孩/：「下一層節點」，或是該標籤的「屬性 @」或「文字 text()」
                    2. 子孫//：全搜索，常用在搜尋不知道有幾層節點的狀況
@@ -66,7 +66,7 @@
                         放在中間，就是前一個節點node(父節點)下全搜尋：
                               //table//text() 是找尋全文件中table標籤底下的所有文字
                    3. . 以現在的節點node搜索，常用在同時呈現同一階層(輩份)的資料
-            XPath 敘述(Predicates):
+            4. XPath 敘述(Predicates):
                    1. 使用[]表示
                    2. 位置：
                         div[1]：標籤div的第1個node(從1開始數)
@@ -85,7 +85,8 @@
                         | ：可以串接兩個Path
                         常用情境：同時抓取位於不同Path的所需資訊：第一頁出現的文章標題以及熱門文章標題
                    8. [更多 XPath 語法](https://www.w3schools.com/xml/xpath_syntax.asp)                       
-# 抓取網頁資料
+# 
+- 範例：抓取網頁資料
             import requests
             url = "網址"
             response = requests.get(url)
@@ -126,4 +127,14 @@
             fileout = open(filepath,"wb")
             fileout.write(img)
             fileout.close()
-- 
+-基礎3: Cookie介紹
+
+      Cookie
+      requests.get(url,cookies=我的cookie資訊)
+      requests.post(url,data=post_data,cookies=我的cookie資訊)
+      1. 資料記錄在Client上
+      2. 紀錄的內容：登入狀態(使用者名稱)、瀏覽紀錄......etc.
+      3. 應用
+      記住我的帳號
+      購物車在付帳前要紀錄使用者購買哪些商品
+      推薦你可能喜歡的商品
