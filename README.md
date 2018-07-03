@@ -31,11 +31,12 @@
                  fileout = open(filepath,"wb")
                  fileout.write(img)
 - 基礎2 : 抓取網頁資料
+
     from lxml import etree  只從 lxml <模組module>，裝備 etree <物件Object>
+    
     page = etree.HTML(html)
     把名稱為html的資料(網頁抓下來的原始碼)，
-    以 物件etree的HTML函式，轉換成「XPath的節點(node)型態」，
-            並以名稱page紀錄。
+    以 物件etree的HTML函式，轉換成「XPath的節點(node)型態」，並以名稱page紀錄。
 
       import requests
       url = "網址"
