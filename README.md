@@ -164,3 +164,22 @@ Step2: 資料庫 > Google Maps API > 更多 > Google Places API Web Service > �
       json.loads(字串)：json格式字串 -> python字典型態
       json.dumps(字典)：python字典型態 -> json格式字串
    輔助工具：[Json Parser Online](http://json.parser.online.fr/)
+   
+      xml 解析
+      使用 lxml 的 etree.fromstring(xml)
+      vs. html 是使用 etree.HTML(html)
+      
+      ! 注意
+      etree.fromstring(xml)的xml是要為bytes型別
+      e.g 
+      xml = rep.content 
+      page = etree.fromstring(xml)
+- 補充：編碼轉換
+1. 字串str型別
+      Python 2.x ： 字串str型別為bytes
+      
+      Python 3.x ： 字串str型別為unicode
+2. bytes 與 unicode 轉換
+      unicode = bytes.decode('編碼格式')
+      
+      bytes = unicode.encode('編碼格式')
