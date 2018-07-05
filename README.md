@@ -176,10 +176,24 @@ Step2: 資料庫 > Google Maps API > 更多 > Google Places API Web Service > �
       page = etree.fromstring(xml)
 - 補充：編碼轉換
 1. 字串str型別
+
       Python 2.x ： 字串str型別為bytes
       
       Python 3.x ： 字串str型別為unicode
 2. bytes 與 unicode 轉換
+
       unicode = bytes.decode('編碼格式')
       
       bytes = unicode.encode('編碼格式')
+      
+      註：遇到編碼比較複雜，常無法轉成功時，可以加上參數 errors='ignore'
+3. requests 的編碼
+
+      rep = requests.get(url)
+      
+      rep.content ： bytes 型別
+      
+      rep.text ： unicode 型別
+            1. 由 requests 以 rep.encoding 自動轉換
+            2. rep.encoding 是以 Reponse Headers 的 Content-Type 決定
+            
