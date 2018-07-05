@@ -194,6 +194,6 @@ Step2: 資料庫 > Google Maps API > 更多 > Google Places API Web Service > �
       rep.content ： bytes 型別
       
       rep.text ： unicode 型別
-            1. 由 requests 以 rep.encoding 自動轉換
-            2. rep.encoding 是以 Reponse Headers 的 Content-Type 決定
+                  1. 由 requests 以 rep.encoding 自動轉換
+                  2. rep.encoding 是以 Reponse Headers 的 Content-Type 決定
             
